@@ -1,14 +1,22 @@
 import React from 'react'
 import './AppCG.css'
 
-const RetrieveData = () => {
-    let dataReturned = {}
+class RetrieveData extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            dataReturned: {}
+        }
+    }
+    
+    ComponentDidMount() {
     fetch('https://swapi.co/api/people/1')
         .then(response => response.json())
         .then(data => dataReturned = Object.assign({}, data))
 
     console.log(dataReturned)
     return dataReturned
+    }
 }
 
 
