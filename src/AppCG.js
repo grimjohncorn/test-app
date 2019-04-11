@@ -9,14 +9,21 @@ class RetrieveData extends React.Component {
         }
     }
     
-    ComponentDidMount() {
-    fetch('https://swapi.co/api/people/1')
-        .then(response => response.json())
-        .then(data => dataReturned = Object.assign({}, data))
+    componentDidMount() {
+        fetch('https://swapi.co/api/people/1')
+            .then(response => response.json())
+            .then(data => this.setState({dataReturned: data}))
 
-    console.log(dataReturned)
-    return dataReturned
     }
+
+    render() {
+        return (
+            <div>
+                {this.state.dataReturned.name}
+            </div>
+        )
+    }
+
 }
 
 
@@ -26,13 +33,10 @@ class AppCG extends React.Component {
     
     
     render() {
-        const data = RetrieveData()
-        console.log("test44")
-        console.log(data)
         return (
             <div id="testTitle">
                 <h1>testApp</h1>
-                <p>{data.name}</p>
+                <p><RetrieveData /></p>
                 <p>test2</p>
             </div>
 
