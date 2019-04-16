@@ -6,22 +6,38 @@ class RetrieveData extends React.Component {
         super(props)
         this.state = {
             dataReturned: {},
-            isLoading: true
+            isLoading: true,
+            error: null
         }
     }
     
     componentDidMount() {
         this.setState({isLoading: true})
         fetch('https://swapi.co/api/people/1')
-            .then(response => response.json())
+            .then(response => {
+                if(response.ok) { 
+                    return response.json()
+                } else {
+                    //Throw error if HTTP 404 error for example - wouldn't normally be caught
+                    throw new Error('Its broken!')
+                }
+            })
             .then(data => this.setState({dataReturned: data}))
-            .then(this.setState({isLoading: false}))
+            .then(() => this.setState({isLoading: false}))  //.then accepts a callback function, not just a command
+            .catch(error => this.setState({error: error, isLoading: false}))
     }
 
     render() {
+        if(this.state.error) {
+            return (
+                <div>
+                    <p>{this.state.error}</p>
+                </div>
+            )
+        }
         return (
             <div>
-                {this.state.isLoading ? <p>Loading...</p> : this.state.dataReturned.name}
+                <p>{this.state.isLoading ? 'Loading...' : this.state.dataReturned.name}</p>
             </div>
         )
     }
