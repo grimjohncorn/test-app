@@ -19,12 +19,17 @@ class RetrieveData extends React.Component {
                     return response.json()
                 } else {
                     //Throw error if HTTP 404 error for example - wouldn't normally be caught
-                    throw new Error('Its broken!')
+                    throw new Error("Oh no error")
                 }
             })
             .then(data => this.setState({dataReturned: data}))
             .then(() => this.setState({isLoading: false}))  //.then accepts a callback function, not just a command
-            .catch(error => this.setState({error: error, isLoading: false}))
+            .catch(error => {
+                console.log("1" + error + "2")
+                //this.setState({error: error})  - not working
+                this.setState({isLoading: false })
+                console.log("error is " + this.state.error)
+            })
     }
 
     render() {
